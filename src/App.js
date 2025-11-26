@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Lock, Unlock, Play, Heart, X, Music, ChevronRight, ChevronLeft, AlertCircle, Camera, Plus, Save, Upload, Loader, Trash2, Settings, ImageOff, Edit3, LogOut } from 'lucide-react';
+import { Lock, Play, X, Music, ChevronRight, ChevronLeft, Camera, Plus, Save, Upload, Loader, Trash2, Settings, ImageOff, Edit3, LogOut } from 'lucide-react';
 
 // --- Firebase Imports ---
 import { initializeApp } from 'firebase/app';
-import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged } from 'firebase/auth';
+import { getAuth, signInAnonymously, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore, collection, addDoc, deleteDoc, doc, setDoc, onSnapshot, query, serverTimestamp } from 'firebase/firestore';
 
-// --- [사용자 설정] Firebase Config (수정 완료) ---
+// --- [사용자 설정] Firebase Config ---
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyD3dJLbi-WRmbK_SFqWYb1CvXFAan3rmr8",
   authDomain: "misowedding-545a7.firebaseapp.com",
@@ -19,7 +19,7 @@ const FIREBASE_CONFIG = {
 
 const APP_ID = "miso-wedding";
 
-// --- Default/Static Data (Structure & Fallback Content) ---
+// --- Default/Static Data ---
 const DEFAULT_PHASE_DATA = {
   phases: ['10s', '20s', '30s', 'video'],
   '10s': {
@@ -109,7 +109,6 @@ const RetroButton = ({ children, onClick, disabled, variant = 'primary', classNa
 
 // --- Modals ---
 
-// Updated DetailModal with Navigation
 const DetailModal = ({ item, items, onClose, onChange }) => {
   if (!item) return null;
 
@@ -129,8 +128,6 @@ const DetailModal = ({ item, items, onClose, onChange }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-80 backdrop-blur-sm animate-fade-in">
-      
-      {/* Navigation Buttons (Outside Card) */}
       {hasPrev && (
           <button 
             onClick={handlePrev}
@@ -139,7 +136,6 @@ const DetailModal = ({ item, items, onClose, onChange }) => {
             <ChevronLeft size={24} />
           </button>
       )}
-      
       {hasNext && (
           <button 
             onClick={handleNext}
@@ -148,7 +144,6 @@ const DetailModal = ({ item, items, onClose, onChange }) => {
             <ChevronRight size={24} />
           </button>
       )}
-
       <div className="bg-white w-full max-w-sm border-2 border-black shadow-[8px_8px_0px_0px_#FF00FF] relative flex flex-col max-h-[90vh]">
         <div className="bg-[#000080] text-white p-2 flex justify-between items-center">
           <span className="font-bold text-sm truncate">{item.title}</span>
@@ -182,7 +177,6 @@ const DetailModal = ({ item, items, onClose, onChange }) => {
   );
 };
 
-// Phase Settings Edit Modal (Updated for Video)
 const PhaseEditModal = ({ isOpen, onClose, phaseKey, initialData, onSave }) => {
   const [data, setData] = useState({ title: '', subtitle: '', description: '', videoSrc: '' });
 
@@ -208,7 +202,6 @@ const PhaseEditModal = ({ isOpen, onClose, phaseKey, initialData, onSave }) => {
                     <label className="text-xs font-bold block mb-1">소제목 (Subtitle)</label>
                     <input type="text" className="w-full border-2 border-black p-2 bg-white" value={data.subtitle} onChange={(e) => setData({...data, subtitle: e.target.value})} />
                 </div>
-                {/* Only Show Video URL Input for Video Phase */}
                 {phaseKey === 'video' && (
                     <div>
                         <label className="text-xs font-bold block mb-1">영상 주소 (Video URL)</label>
@@ -318,31 +311,25 @@ export default function TimeCapsuleApp() {
   const [progress, setProgress] = useState(0); 
   const [currentTab, setCurrentTab] = useState(0);
   
-  // States for Modals
   const [selectedItem, setSelectedItem] = useState(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
-  const [editingPhase, setEditingPhase] = useState(null); // For Phase Edit Modal
+  const [editingPhase, setEditingPhase] = useState(null); 
   
-  // Data States
   const [phaseData, setPhaseData] = useState(DEFAULT_PHASE_DATA);
   const [firebaseItems, setFirebaseItems] = useState([]);
   
-  // Firebase Auth/DB
   const [user, setUser] = useState(null);
   const [db, setDb] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
-  const [appId] = useState(APP_ID); // 사용자가 지정한 앱 ID 사용
+  const [appId] = useState(APP_ID);
 
-  // 1. Initialize Firebase & Auth (사용자 설정 적용)
   useEffect(() => {
-    // 사용자가 제공한 설정값 사용
     const app = initializeApp(FIREBASE_CONFIG);
     const auth = getAuth(app);
     const database = getFirestore(app);
     setDb(database);
 
     const initAuth = async () => {
-      // 익명 로그인 사용
       await signInAnonymously(auth);
     };
     initAuth();
@@ -351,7 +338,6 @@ export default function TimeCapsuleApp() {
     return () => unsubscribe();
   }, []);
 
-  // 2. Sync Items (Memories)
   useEffect(() => {
     if (!user || !db) return;
     const q = query(collection(db, 'artifacts', appId, 'public', 'data', 'memories'));
@@ -364,14 +350,13 @@ export default function TimeCapsuleApp() {
     return () => unsubscribe();
   }, [user, db, appId]);
 
-  // 3. Sync Phase Settings (Title, Subtitle, Desc)
   useEffect(() => {
     if (!user || !db) return;
     const unsubscribe = onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'phase_settings'), (snapshot) => {
         const newPhaseData = { ...DEFAULT_PHASE_DATA };
         let hasData = false;
         snapshot.forEach((doc) => {
-            if (doc.id !== 'phases') { // Safety check
+            if (doc.id !== 'phases') { 
                 newPhaseData[doc.id] = { ...newPhaseData[doc.id], ...doc.data() };
                 hasData = true;
             }
@@ -499,7 +484,6 @@ export default function TimeCapsuleApp() {
     <div className="sticky top-0 z-40 bg-[#FFF0F5] border-b-2 border-black p-2 overflow-x-auto whitespace-nowrap scrollbar-hide">
       <div className="flex space-x-2 max-w-md mx-auto">
         {phaseData.phases.map((phase, idx) => {
-          // Admin always unlocked, User follows progress
           const isUnlocked = isAdmin ? true : idx <= progress;
           const isActive = idx === currentTab;
           let label = phase === '10s' ? '10대' : phase === '20s' ? '20대' : phase === '30s' ? '30대' : '영상';
@@ -515,7 +499,6 @@ export default function TimeCapsuleApp() {
     </div>
   );
 
-  // Moved displayItems calculation here to pass to DetailModal
   const phaseKey = phaseData.phases[currentTab];
   const dynamicItems = firebaseItems.filter(item => item.phase === phaseKey);
   const displayItems = [...dynamicItems]; 
@@ -526,7 +509,6 @@ export default function TimeCapsuleApp() {
     if (phaseKey === 'video') {
       return (
         <div className="space-y-6 animate-fade-in text-center p-4 pb-24">
-           {/* Admin Edit Trigger */}
            {isAdmin && (
              <div className="flex justify-end mb-2">
                  <button onClick={() => setEditingPhase(phaseKey)} className="bg-black text-white px-3 py-1 text-xs font-bold flex items-center gap-1 hover:bg-gray-800"><Edit3 size={12}/> 텍스트 수정</button>
@@ -545,7 +527,6 @@ export default function TimeCapsuleApp() {
             <div className="flex justify-center space-x-4 mb-4 border-b-2 border-dashed border-gray-300 pb-4">
                {['#FF69B4', '#00BFFF', '#FFA500'].map((c, i) => (<div key={i} className="text-center"><PixelAvatar color={c} /><p className="text-xs font-bold mt-1">{['누리','주희','민희'][i]}</p></div>))}
             </div>
-            {/* Dynamic Description */}
             <p className="font-handwriting text-lg leading-relaxed whitespace-pre-wrap">{data.description || DEFAULT_PHASE_DATA.video.description}</p>
           </div>
         </div>
@@ -554,7 +535,6 @@ export default function TimeCapsuleApp() {
 
     return (
       <div className="space-y-6 pb-24 px-4">
-        {/* Admin Header with Edit Button */}
         <div className="relative">
              <div className="bg-[#FFFF00] border-2 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] text-center transform -rotate-1 relative z-10">
                 <div className="absolute -top-3 -left-3 rotate-[-10deg]"><PixelAvatar size={32} color="#000" /></div>
@@ -573,10 +553,8 @@ export default function TimeCapsuleApp() {
 
         <p className="text-gray-600 text-sm text-center bg-white p-2 border border-gray-300">{data.description}</p>
         
-        {/* Gallery Grid */}
         <div className="grid grid-cols-2 gap-4">
           
-          {/* Empty State for Non-Admins */}
           {displayItems.length === 0 && !isAdmin && (
              <div className="col-span-2 text-center py-10 bg-gray-50 border-2 border-dashed border-gray-300 flex flex-col items-center justify-center text-gray-500">
                 <ImageOff className="mb-2 opacity-50" />
@@ -585,14 +563,12 @@ export default function TimeCapsuleApp() {
              </div>
           )}
 
-          {/* Items */}
           {displayItems.map((item) => (
             <div key={item.id} onClick={() => setSelectedItem(item)} className="group cursor-pointer relative">
               <div className="aspect-square bg-gray-200 border-2 border-black overflow-hidden shadow-[3px_3px_0px_0px_rgba(0,0,0,0.2)] group-hover:shadow-[3px_3px_0px_0px_#FF00FF] transition-all relative">
                 <img src={item.src} alt={item.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 grayscale group-hover:grayscale-0" />
                 <div className="absolute bottom-0 right-0 bg-white border-t-2 border-l-2 border-black px-1"><PixelAvatar size={20} color={item.avatarColor || "#000"} /></div>
                 
-                {/* Delete Button (Admin Only) */}
                 {isAdmin && (
                     <button 
                         onClick={(e) => handleDelete(e, item.id)}
@@ -606,7 +582,6 @@ export default function TimeCapsuleApp() {
             </div>
           ))}
           
-          {/* Upload Button (Admin Only) */}
           {isAdmin && (
             <div onClick={() => setShowUploadModal(true)} className="aspect-square bg-[#F0F0F0] border-2 border-black border-dashed flex flex-col items-center justify-center cursor-pointer hover:bg-white transition-colors group">
                 <div className="bg-[#FF00FF] text-white p-2 rounded-full mb-2 group-hover:scale-110 transition-transform"><Plus size={24} /></div>
@@ -615,7 +590,6 @@ export default function TimeCapsuleApp() {
           )}
         </div>
         
-        {/* Next Stage Button: Hidden for Admin, Shown for User */}
         {!isAdmin && progress === currentTab && (
             <div className="mt-8">
               <RetroButton onClick={handleNextStage} variant="secondary">{currentTab < phaseData.phases.length - 2 ? '다음 시기로 이동하기 👉' : '지옥의 30대 완료! 영상 보기 🎬'}</RetroButton>
@@ -646,7 +620,6 @@ export default function TimeCapsuleApp() {
       {renderTimelineNav()}
       <main className="max-w-md mx-auto pt-6 animate-fade-in min-h-[calc(100vh-140px)]">{renderContent()}</main>
       
-      {/* Updated DetailModal with Items for Navigation */}
       <DetailModal 
         item={selectedItem} 
         items={displayItems}
@@ -655,7 +628,6 @@ export default function TimeCapsuleApp() {
       />
       
       <UploadModal isOpen={showUploadModal} onClose={() => setShowUploadModal(false)} onUpload={handleUpload} isUploading={isUploading} />
-      {/* Edit Phase Modal */}
       {editingPhase && (
          <PhaseEditModal 
             isOpen={!!editingPhase} 
