@@ -61,7 +61,7 @@ const resizeImage = (base64Str, maxWidth = 600) => {
       canvas.height = img.height * scaleSize;
       const ctx = canvas.getContext('2d');
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      resolve(canvas.toDataURL('image/jpeg', 0.7)); 
+      resolve(canvas.toDataURL('image/jpeg', 0.7));
     };
   });
 };
@@ -117,32 +117,32 @@ const DetailModal = ({ item, items, onClose, onChange }) => {
   const hasNext = currentIndex < items.length - 1;
 
   const handlePrev = (e) => {
-      e.stopPropagation();
-      if (hasPrev) onChange(items[currentIndex - 1]);
+    e.stopPropagation();
+    if (hasPrev) onChange(items[currentIndex - 1]);
   };
 
   const handleNext = (e) => {
-      e.stopPropagation();
-      if (hasNext) onChange(items[currentIndex + 1]);
+    e.stopPropagation();
+    if (hasNext) onChange(items[currentIndex + 1]);
   };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-80 backdrop-blur-sm animate-fade-in">
       {hasPrev && (
-          <button 
-            onClick={handlePrev}
-            className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white border-2 border-black p-2 z-50 shadow-[4px_4px_0px_0px_rgba(255,255,255,0.5)] active:shadow-none active:translate-y-[-40%] transition-all hover:bg-gray-100"
-          >
-            <ChevronLeft size={24} />
-          </button>
+        <button
+          onClick={handlePrev}
+          className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white border-2 border-black p-2 z-50 shadow-[4px_4px_0px_0px_rgba(255,255,255,0.5)] active:shadow-none active:translate-y-[-40%] transition-all hover:bg-gray-100"
+        >
+          <ChevronLeft size={24} />
+        </button>
       )}
       {hasNext && (
-          <button 
-            onClick={handleNext}
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white border-2 border-black p-2 z-50 shadow-[4px_4px_0px_0px_rgba(255,255,255,0.5)] active:shadow-none active:translate-y-[-40%] transition-all hover:bg-gray-100"
-          >
-            <ChevronRight size={24} />
-          </button>
+        <button
+          onClick={handleNext}
+          className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white border-2 border-black p-2 z-50 shadow-[4px_4px_0px_0px_rgba(255,255,255,0.5)] active:shadow-none active:translate-y-[-40%] transition-all hover:bg-gray-100"
+        >
+          <ChevronRight size={24} />
+        </button>
       )}
       <div className="bg-white w-full max-w-sm border-2 border-black shadow-[8px_8px_0px_0px_#FF00FF] relative flex flex-col max-h-[90vh]">
         <div className="bg-[#000080] text-white p-2 flex justify-between items-center">
@@ -151,21 +151,21 @@ const DetailModal = ({ item, items, onClose, onChange }) => {
         </div>
         <div className="p-4 overflow-y-auto">
           <div className="border-2 border-gray-200 p-1 bg-gray-50">
-              <img src={item.src} alt={item.title} className="w-full h-auto object-cover" />
+            <img src={item.src} alt={item.title} className="w-full h-auto object-cover" />
           </div>
           <div className="mt-4 bg-[#F5F5F5] border border-gray-300 p-3 relative">
-              <div className="flex items-start gap-3">
-                  <div className="flex-shrink-0 flex flex-col items-center">
-                      <PixelAvatar size={32} color={item.avatarColor || '#000'} />
-                      <span className="text-[10px] font-bold mt-1">{item.author}</span>
-                  </div>
-                  <div className="flex-1">
-                       <p className="text-sm font-medium leading-snug">{item.comment.split(':')[1] || item.comment}</p>
-                       <span className="text-[10px] text-gray-400 block mt-2 text-right">
-                         {item.createdAt?.seconds ? new Date(item.createdAt.seconds * 1000).toLocaleString() : '방금 전'}
-                       </span>
-                  </div>
+            <div className="flex items-start gap-3">
+              <div className="flex-shrink-0 flex flex-col items-center">
+                <PixelAvatar size={32} color={item.avatarColor || '#000'} />
+                <span className="text-[10px] font-bold mt-1">{item.author}</span>
               </div>
+              <div className="flex-1">
+                <p className="text-sm font-medium leading-snug">{item.comment.split(':')[1] || item.comment}</p>
+                <span className="text-[10px] text-gray-400 block mt-2 text-right">
+                  {item.createdAt?.seconds ? new Date(item.createdAt.seconds * 1000).toLocaleString() : '방금 전'}
+                </span>
+              </div>
+            </div>
           </div>
         </div>
         <div className="p-3 border-t-2 border-gray-100 bg-gray-50 text-center flex justify-between items-center text-xs text-gray-400">
@@ -188,34 +188,34 @@ const PhaseEditModal = ({ isOpen, onClose, phaseKey, initialData, onSave }) => {
 
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black bg-opacity-80 backdrop-blur-sm animate-fade-in">
-        <div className="bg-[#FFF0F5] w-full max-w-sm border-2 border-black shadow-[8px_8px_0px_0px_#FFFF00] p-4 space-y-4">
-            <div className="flex justify-between items-center border-b-2 border-gray-300 pb-2">
-                <h3 className="font-black text-lg flex items-center gap-2"><Edit3 size={20} /> 탭 설정 수정</h3>
-                <button onClick={onClose}><X/></button>
-            </div>
-            <div className="space-y-3">
-                <div>
-                    <label className="text-xs font-bold block mb-1">제목 (Title)</label>
-                    <input type="text" className="w-full border-2 border-black p-2 bg-white" value={data.title} onChange={(e) => setData({...data, title: e.target.value})} />
-                </div>
-                <div>
-                    <label className="text-xs font-bold block mb-1">소제목 (Subtitle)</label>
-                    <input type="text" className="w-full border-2 border-black p-2 bg-white" value={data.subtitle} onChange={(e) => setData({...data, subtitle: e.target.value})} />
-                </div>
-                {phaseKey === 'video' && (
-                    <div>
-                        <label className="text-xs font-bold block mb-1">영상 주소 (Video URL)</label>
-                        <input type="text" className="w-full border-2 border-black p-2 bg-white" value={data.videoSrc} onChange={(e) => setData({...data, videoSrc: e.target.value})} placeholder="https://..." />
-                        <p className="text-[10px] text-gray-500 mt-1">* MP4 파일 주소나 썸네일로 쓸 이미지 주소</p>
-                    </div>
-                )}
-                <div>
-                    <label className="text-xs font-bold block mb-1">설명 (Description)</label>
-                    <textarea className="w-full border-2 border-black p-2 bg-white h-20 resize-none" value={data.description} onChange={(e) => setData({...data, description: e.target.value})} />
-                </div>
-            </div>
-            <RetroButton onClick={() => onSave(phaseKey, data)} variant="primary"><Save size={18} /> 설정 저장하기</RetroButton>
+      <div className="bg-[#FFF0F5] w-full max-w-sm border-2 border-black shadow-[8px_8px_0px_0px_#FFFF00] p-4 space-y-4">
+        <div className="flex justify-between items-center border-b-2 border-gray-300 pb-2">
+          <h3 className="font-black text-lg flex items-center gap-2"><Edit3 size={20} /> 탭 설정 수정</h3>
+          <button onClick={onClose}><X /></button>
         </div>
+        <div className="space-y-3">
+          <div>
+            <label className="text-xs font-bold block mb-1">제목 (Title)</label>
+            <input type="text" className="w-full border-2 border-black p-2 bg-white" value={data.title} onChange={(e) => setData({ ...data, title: e.target.value })} />
+          </div>
+          <div>
+            <label className="text-xs font-bold block mb-1">소제목 (Subtitle)</label>
+            <input type="text" className="w-full border-2 border-black p-2 bg-white" value={data.subtitle} onChange={(e) => setData({ ...data, subtitle: e.target.value })} />
+          </div>
+          {phaseKey === 'video' && (
+            <div>
+              <label className="text-xs font-bold block mb-1">영상 주소 (Video URL)</label>
+              <input type="text" className="w-full border-2 border-black p-2 bg-white" value={data.videoSrc} onChange={(e) => setData({ ...data, videoSrc: e.target.value })} placeholder="https://..." />
+              <p className="text-[10px] text-gray-500 mt-1">* MP4 파일 주소나 썸네일로 쓸 이미지 주소</p>
+            </div>
+          )}
+          <div>
+            <label className="text-xs font-bold block mb-1">설명 (Description)</label>
+            <textarea className="w-full border-2 border-black p-2 bg-white h-20 resize-none" value={data.description} onChange={(e) => setData({ ...data, description: e.target.value })} />
+          </div>
+        </div>
+        <RetroButton onClick={() => onSave(phaseKey, data)} variant="primary"><Save size={18} /> 설정 저장하기</RetroButton>
+      </div>
     </div>
   );
 };
@@ -233,71 +233,71 @@ const UploadModal = ({ isOpen, onClose, onUpload, isUploading }) => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-        const reader = new FileReader();
-        reader.onloadend = () => setPost(prev => ({ ...prev, image: reader.result }));
-        reader.readAsDataURL(file);
+      const reader = new FileReader();
+      reader.onloadend = () => setPost(prev => ({ ...prev, image: reader.result }));
+      reader.readAsDataURL(file);
     }
   };
 
   const handleSubmit = async () => {
     if (!post.title || !post.comment) {
-        window.alert("제목과 코멘트를 입력해주세요!");
-        return;
+      window.alert("제목과 코멘트를 입력해주세요!");
+      return;
     }
     onUpload(post);
   };
 
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black bg-opacity-80 backdrop-blur-sm animate-fade-in">
-        <div className="bg-[#FFF0F5] w-full max-w-sm border-2 border-black shadow-[8px_8px_0px_0px_#00FFFF] p-4 space-y-4">
-            <div className="flex justify-between items-center border-b-2 border-gray-300 pb-2">
-                <h3 className="font-black text-lg flex items-center gap-2"><Camera size={20} /> 추억 업로드 (Admin)</h3>
-                <button onClick={onClose}><X/></button>
-            </div>
-            {isUploading ? (
-                <div className="h-64 flex flex-col items-center justify-center text-center space-y-4">
-                    <Loader className="animate-spin text-[#FF00FF]" size={40} />
-                    <p className="font-bold">추억 저장 중...<br/>(사진 압축하는 중!)</p>
-                </div>
-            ) : (
-            <div className="space-y-3">
-                <div>
-                    <label className="text-xs font-bold block mb-1">시대 선택</label>
-                    <select className="w-full border-2 border-black p-2 font-bold bg-white" value={post.phase} onChange={(e) => setPost({...post, phase: e.target.value})}>
-                        <option value="10s">10대</option>
-                        <option value="20s">20대</option>
-                        <option value="30s">30대</option>
-                    </select>
-                </div>
-                <div>
-                    <label className="text-xs font-bold block mb-1">사진 첨부</label>
-                    <input type="file" accept="image/*" ref={fileInputRef} onChange={handleFileChange} className="hidden" />
-                    <div onClick={() => fileInputRef.current?.click()} className="w-full h-24 border-2 border-dashed border-black bg-white flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50">
-                        {post.image ? <img src={post.image} alt="Preview" className="h-full w-full object-contain" /> : <><Upload size={20} className="mb-1 text-gray-400" /><span className="text-xs text-gray-500 font-bold">사진 선택</span></>}
-                    </div>
-                </div>
-                <div>
-                    <label className="text-xs font-bold block mb-1">제목</label>
-                    <input type="text" className="w-full border-2 border-black p-2 bg-white" placeholder="예: 흑역사 생성의 날" value={post.title} onChange={(e) => setPost({...post, title: e.target.value})} />
-                </div>
-                <div>
-                    <label className="text-xs font-bold block mb-1">작성자</label>
-                    <div className="flex gap-2">
-                            {['김누리', '이주희', '모민희'].map(name => (
-                                <button key={name} onClick={() => setPost({...post, author: name})} className={`flex-1 py-2 text-xs font-bold border-2 ${post.author === name ? 'bg-[#FF00FF] text-white border-black' : 'bg-white border-gray-300 text-gray-400'}`}>{name}</button>
-                            ))}
-                    </div>
-                </div>
-                <div>
-                    <label className="text-xs font-bold block mb-1">일촌평</label>
-                    <textarea className="w-full border-2 border-black p-2 bg-white h-16 resize-none" placeholder="촌철살인 한마디..." value={post.comment} onChange={(e) => setPost({...post, comment: e.target.value})} />
-                </div>
-            </div>
-            )}
-            {!isUploading && (
-                <RetroButton onClick={handleSubmit} variant="action"><Save size={18} /> 저장하기</RetroButton>
-            )}
+      <div className="bg-[#FFF0F5] w-full max-w-sm border-2 border-black shadow-[8px_8px_0px_0px_#00FFFF] p-4 space-y-4">
+        <div className="flex justify-between items-center border-b-2 border-gray-300 pb-2">
+          <h3 className="font-black text-lg flex items-center gap-2"><Camera size={20} /> 추억 업로드 (Admin)</h3>
+          <button onClick={onClose}><X /></button>
         </div>
+        {isUploading ? (
+          <div className="h-64 flex flex-col items-center justify-center text-center space-y-4">
+            <Loader className="animate-spin text-[#FF00FF]" size={40} />
+            <p className="font-bold">추억 저장 중...<br />(사진 압축하는 중!)</p>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            <div>
+              <label className="text-xs font-bold block mb-1">시대 선택</label>
+              <select className="w-full border-2 border-black p-2 font-bold bg-white" value={post.phase} onChange={(e) => setPost({ ...post, phase: e.target.value })}>
+                <option value="10s">10대</option>
+                <option value="20s">20대</option>
+                <option value="30s">30대</option>
+              </select>
+            </div>
+            <div>
+              <label className="text-xs font-bold block mb-1">사진 첨부</label>
+              <input type="file" accept="image/*" ref={fileInputRef} onChange={handleFileChange} className="hidden" />
+              <div onClick={() => fileInputRef.current?.click()} className="w-full h-24 border-2 border-dashed border-black bg-white flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50">
+                {post.image ? <img src={post.image} alt="Preview" className="h-full w-full object-contain" /> : <><Upload size={20} className="mb-1 text-gray-400" /><span className="text-xs text-gray-500 font-bold">사진 선택</span></>}
+              </div>
+            </div>
+            <div>
+              <label className="text-xs font-bold block mb-1">제목</label>
+              <input type="text" className="w-full border-2 border-black p-2 bg-white" placeholder="예: 흑역사 생성의 날" value={post.title} onChange={(e) => setPost({ ...post, title: e.target.value })} />
+            </div>
+            <div>
+              <label className="text-xs font-bold block mb-1">작성자</label>
+              <div className="flex gap-2">
+                {['김누리', '이주희', '모민희'].map(name => (
+                  <button key={name} onClick={() => setPost({ ...post, author: name })} className={`flex-1 py-2 text-xs font-bold border-2 ${post.author === name ? 'bg-[#FF00FF] text-white border-black' : 'bg-white border-gray-300 text-gray-400'}`}>{name}</button>
+                ))}
+              </div>
+            </div>
+            <div>
+              <label className="text-xs font-bold block mb-1">일촌평</label>
+              <textarea className="w-full border-2 border-black p-2 bg-white h-16 resize-none" placeholder="촌철살인 한마디..." value={post.comment} onChange={(e) => setPost({ ...post, comment: e.target.value })} />
+            </div>
+          </div>
+        )}
+        {!isUploading && (
+          <RetroButton onClick={handleSubmit} variant="action"><Save size={18} /> 저장하기</RetroButton>
+        )}
+      </div>
     </div>
   );
 };
@@ -307,17 +307,17 @@ export default function TimeCapsuleApp() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [passwordInput, setPasswordInput] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
-  
-  const [progress, setProgress] = useState(0); 
+
+  const [progress, setProgress] = useState(0);
   const [currentTab, setCurrentTab] = useState(0);
-  
+
   const [selectedItem, setSelectedItem] = useState(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
-  const [editingPhase, setEditingPhase] = useState(null); 
-  
+  const [editingPhase, setEditingPhase] = useState(null);
+
   const [phaseData, setPhaseData] = useState(DEFAULT_PHASE_DATA);
   const [firebaseItems, setFirebaseItems] = useState([]);
-  
+
   const [user, setUser] = useState(null);
   const [db, setDb] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -333,7 +333,7 @@ export default function TimeCapsuleApp() {
       await signInAnonymously(auth);
     };
     initAuth();
-    
+
     const unsubscribe = onAuthStateChanged(auth, setUser);
     return () => unsubscribe();
   }, []);
@@ -353,15 +353,15 @@ export default function TimeCapsuleApp() {
   useEffect(() => {
     if (!user || !db) return;
     const unsubscribe = onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'phase_settings'), (snapshot) => {
-        const newPhaseData = { ...DEFAULT_PHASE_DATA };
-        let hasData = false;
-        snapshot.forEach((doc) => {
-            if (doc.id !== 'phases') { 
-                newPhaseData[doc.id] = { ...newPhaseData[doc.id], ...doc.data() };
-                hasData = true;
-            }
-        });
-        if (hasData) setPhaseData(newPhaseData);
+      const newPhaseData = { ...DEFAULT_PHASE_DATA };
+      let hasData = false;
+      snapshot.forEach((doc) => {
+        if (doc.id !== 'phases') {
+          newPhaseData[doc.id] = { ...newPhaseData[doc.id], ...doc.data() };
+          hasData = true;
+        }
+      });
+      if (hasData) setPhaseData(newPhaseData);
     });
     return () => unsubscribe();
   }, [user, db, appId]);
@@ -370,11 +370,11 @@ export default function TimeCapsuleApp() {
   const handleLogin = (e) => {
     e.preventDefault();
     if (passwordInput === USER_PASSWORD) {
-        setIsAdmin(false);
-        setView('main');
+      setIsAdmin(false);
+      setView('main');
     } else if (passwordInput === ADMIN_PASSWORD) {
-        setIsAdmin(true);
-        setView('main');
+      setIsAdmin(true);
+      setView('main');
     } else {
       setErrorMsg('코드 불일치! (힌트: 미소=1004, 관리자=7979)');
       setTimeout(() => setErrorMsg(''), 3000);
@@ -398,47 +398,47 @@ export default function TimeCapsuleApp() {
   };
 
   const handlePhaseUpdate = async (phaseKey, newData) => {
-      if (!db) return;
-      try {
-          await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'phase_settings', phaseKey), newData, { merge: true });
-          setEditingPhase(null);
-      } catch (error) {
-          console.error("Failed to update settings", error);
-          window.alert("설정 저장 실패");
-      }
+    if (!db) return;
+    try {
+      await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'phase_settings', phaseKey), newData, { merge: true });
+      setEditingPhase(null);
+    } catch (error) {
+      console.error("Failed to update settings", error);
+      window.alert("설정 저장 실패");
+    }
   };
 
   const handleUpload = async (newPost) => {
     if (!user || !db) return;
     setIsUploading(true);
     try {
-        let finalImageSrc = newPost.image;
-        if (newPost.image && newPost.image.length > 100000) {
-             finalImageSrc = await resizeImage(newPost.image);
-        }
-        if (!finalImageSrc) {
-            finalImageSrc = `https://placehold.co/400x300/${Math.floor(Math.random()*16777215).toString(16)}/ffffff?text=${encodeURIComponent(newPost.title)}`;
-        }
-        const newItem = {
-            type: 'photo',
-            title: newPost.title,
-            src: finalImageSrc,
-            comment: `${newPost.author}: ${newPost.comment}`,
-            author: newPost.author,
-            avatarColor: newPost.author === '김누리' ? '#FF69B4' : newPost.author === '이주희' ? '#00BFFF' : '#FFA500',
-            phase: newPost.phase,
-            createdAt: serverTimestamp(),
-            userId: user.uid
-        };
-        await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'memories'), newItem);
-        setShowUploadModal(false);
-        const phaseIndex = phaseData.phases.indexOf(newPost.phase);
-        setCurrentTab(phaseIndex);
+      let finalImageSrc = newPost.image;
+      if (newPost.image && newPost.image.length > 100000) {
+        finalImageSrc = await resizeImage(newPost.image);
+      }
+      if (!finalImageSrc) {
+        finalImageSrc = `https://placehold.co/400x300/${Math.floor(Math.random() * 16777215).toString(16)}/ffffff?text=${encodeURIComponent(newPost.title)}`;
+      }
+      const newItem = {
+        type: 'photo',
+        title: newPost.title,
+        src: finalImageSrc,
+        comment: `${newPost.author}: ${newPost.comment}`,
+        author: newPost.author,
+        avatarColor: newPost.author === '김누리' ? '#FF69B4' : newPost.author === '이주희' ? '#00BFFF' : '#FFA500',
+        phase: newPost.phase,
+        createdAt: serverTimestamp(),
+        userId: user.uid
+      };
+      await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'memories'), newItem);
+      setShowUploadModal(false);
+      const phaseIndex = phaseData.phases.indexOf(newPost.phase);
+      setCurrentTab(phaseIndex);
     } catch (error) {
-        console.error("Upload failed", error);
-        window.alert("업로드 실패! 사진 용량이 너무 클 수 있습니다.");
+      console.error("Upload failed", error);
+      window.alert("업로드 실패! 사진 용량이 너무 클 수 있습니다.");
     } finally {
-        setIsUploading(false);
+      setIsUploading(false);
     }
   };
 
@@ -447,10 +447,10 @@ export default function TimeCapsuleApp() {
     if (!isAdmin) return;
     if (!window.confirm("정말 이 추억을 삭제하시겠습니까? (복구 불가)")) return;
     try {
-        await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'memories', itemId));
+      await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'memories', itemId));
     } catch (error) {
-        console.error("Delete failed", error);
-        window.alert("삭제 실패");
+      console.error("Delete failed", error);
+      window.alert("삭제 실패");
     }
   };
 
@@ -460,7 +460,7 @@ export default function TimeCapsuleApp() {
       <div className="absolute bottom-10 right-10 opacity-20 transform rotate-12"><PixelAvatar size={80} color="#00FFFF" /></div>
       <div className="w-full max-w-md space-y-8 z-10">
         <div className="text-center space-y-4 animate-bounce">
-          <h1 className="text-4xl font-black text-[#FF00FF] drop-shadow-[2px_2px_0px_rgba(0,0,0,1)] tracking-tighter">TIME CAPSULE<br/>MISO</h1>
+          <h1 className="text-4xl font-black text-[#FF00FF] drop-shadow-[2px_2px_0px_rgba(0,0,0,1)] tracking-tighter">TIME CAPSULE<br />MISO</h1>
           <p className="text-lg font-bold text-gray-700 bg-white border-2 border-black inline-block px-4 py-1 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">🚫 열어보지 말았어야 할 흑역사</p>
         </div>
         <RetroCard className="space-y-6">
@@ -501,7 +501,7 @@ export default function TimeCapsuleApp() {
 
   const phaseKey = phaseData.phases[currentTab];
   const dynamicItems = firebaseItems.filter(item => item.phase === phaseKey);
-  const displayItems = [...dynamicItems]; 
+  const displayItems = [...dynamicItems];
 
   const renderContent = () => {
     const data = phaseData[phaseKey];
@@ -509,23 +509,23 @@ export default function TimeCapsuleApp() {
     if (phaseKey === 'video') {
       return (
         <div className="space-y-6 animate-fade-in text-center p-4 pb-24">
-           {isAdmin && (
-             <div className="flex justify-end mb-2">
-                 <button onClick={() => setEditingPhase(phaseKey)} className="bg-black text-white px-3 py-1 text-xs font-bold flex items-center gap-1 hover:bg-gray-800"><Edit3 size={12}/> 텍스트 수정</button>
-             </div>
-           )}
-           
-           <div className="bg-black p-1 border-4 border-double border-gray-400 shadow-xl">
+          {isAdmin && (
+            <div className="flex justify-end mb-2">
+              <button onClick={() => setEditingPhase(phaseKey)} className="bg-black text-white px-3 py-1 text-xs font-bold flex items-center gap-1 hover:bg-gray-800"><Edit3 size={12} /> 텍스트 수정</button>
+            </div>
+          )}
+
+          <div className="bg-black p-1 border-4 border-double border-gray-400 shadow-xl">
             <div className="bg-gray-900 aspect-video flex flex-col items-center justify-center text-white relative overflow-hidden group">
-                <div className="absolute inset-0 flex items-center justify-center opacity-50 group-hover:opacity-100 transition-opacity"><Play size={64} className="text-white drop-shadow-lg" /></div>
-                <img src={data.videoSrc || DEFAULT_PHASE_DATA.video.videoSrc} alt="Final Video" className="w-full h-full object-cover opacity-60" />
-                <p className="absolute bottom-4 text-sm blink">CLICK TO PLAY</p>
+              <div className="absolute inset-0 flex items-center justify-center opacity-50 group-hover:opacity-100 transition-opacity"><Play size={64} className="text-white drop-shadow-lg" /></div>
+              <img src={data.videoSrc || DEFAULT_PHASE_DATA.video.videoSrc} alt="Final Video" className="w-full h-full object-cover opacity-60" />
+              <p className="absolute bottom-4 text-sm blink">CLICK TO PLAY</p>
             </div>
           </div>
           <div className="bg-white p-6 border-2 border-black shadow-[4px_4px_0px_0px_#00FFFF] relative">
             <div className="absolute -top-4 -right-4 bg-yellow-300 border-2 border-black p-1 rotate-12"><span className="text-xs font-bold">New!</span></div>
             <div className="flex justify-center space-x-4 mb-4 border-b-2 border-dashed border-gray-300 pb-4">
-               {['#FF69B4', '#00BFFF', '#FFA500'].map((c, i) => (<div key={i} className="text-center"><PixelAvatar color={c} /><p className="text-xs font-bold mt-1">{['누리','주희','민희'][i]}</p></div>))}
+              {['#FF69B4', '#00BFFF', '#FFA500'].map((c, i) => (<div key={i} className="text-center"><PixelAvatar color={c} /><p className="text-xs font-bold mt-1">{['누리', '주희', '민희'][i]}</p></div>))}
             </div>
             <p className="font-handwriting text-lg leading-relaxed whitespace-pre-wrap">{data.description || DEFAULT_PHASE_DATA.video.description}</p>
           </div>
@@ -536,31 +536,31 @@ export default function TimeCapsuleApp() {
     return (
       <div className="space-y-6 pb-24 px-4">
         <div className="relative">
-             <div className="bg-[#FFFF00] border-2 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] text-center transform -rotate-1 relative z-10">
-                <div className="absolute -top-3 -left-3 rotate-[-10deg]"><PixelAvatar size={32} color="#000" /></div>
-                <h2 className="text-xl font-black mb-1">{data.title}</h2>
-                <p className="text-sm font-bold border-t-2 border-black pt-2 mt-2">{data.subtitle}</p>
-            </div>
-            {isAdmin && (
-                <button 
-                    onClick={() => setEditingPhase(phaseKey)}
-                    className="absolute -top-6 right-0 bg-black text-white px-2 py-1 text-xs font-bold flex items-center gap-1 z-20 shadow-md hover:scale-105 transition-transform"
-                >
-                    <Settings size={12}/> 설정 수정
-                </button>
-            )}
+          <div className="bg-[#FFFF00] border-2 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] text-center transform -rotate-1 relative z-10">
+            <div className="absolute -top-3 -left-3 rotate-[-10deg]"><PixelAvatar size={32} color="#000" /></div>
+            <h2 className="text-xl font-black mb-1">{data.title}</h2>
+            <p className="text-sm font-bold border-t-2 border-black pt-2 mt-2">{data.subtitle}</p>
+          </div>
+          {isAdmin && (
+            <button
+              onClick={() => setEditingPhase(phaseKey)}
+              className="absolute -top-6 right-0 bg-black text-white px-2 py-1 text-xs font-bold flex items-center gap-1 z-20 shadow-md hover:scale-105 transition-transform"
+            >
+              <Settings size={12} /> 설정 수정
+            </button>
+          )}
         </div>
 
         <p className="text-gray-600 text-sm text-center bg-white p-2 border border-gray-300">{data.description}</p>
-        
+
         <div className="grid grid-cols-2 gap-4">
-          
+
           {displayItems.length === 0 && !isAdmin && (
-             <div className="col-span-2 text-center py-10 bg-gray-50 border-2 border-dashed border-gray-300 flex flex-col items-center justify-center text-gray-500">
-                <ImageOff className="mb-2 opacity-50" />
-                <p className="font-bold">아직 등록된 흑역사가 없어요!</p>
-                <p className="text-xs mt-1">친구들이 관리자 모드로 로그인해서<br/>추억을 채워줄 예정입니다 :)</p>
-             </div>
+            <div className="col-span-2 text-center py-10 bg-gray-50 border-2 border-dashed border-gray-300 flex flex-col items-center justify-center text-gray-500">
+              <ImageOff className="mb-2 opacity-50" />
+              <p className="font-bold">아직 등록된 흑역사가 없어요!</p>
+              <p className="text-xs mt-1">친구들이 관리자 모드로 로그인해서<br />추억을 채워줄 예정입니다 :)</p>
+            </div>
           )}
 
           {displayItems.map((item) => (
@@ -568,32 +568,32 @@ export default function TimeCapsuleApp() {
               <div className="aspect-square bg-gray-200 border-2 border-black overflow-hidden shadow-[3px_3px_0px_0px_rgba(0,0,0,0.2)] group-hover:shadow-[3px_3px_0px_0px_#FF00FF] transition-all relative">
                 <img src={item.src} alt={item.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 grayscale group-hover:grayscale-0" />
                 <div className="absolute bottom-0 right-0 bg-white border-t-2 border-l-2 border-black px-1"><PixelAvatar size={20} color={item.avatarColor || "#000"} /></div>
-                
+
                 {isAdmin && (
-                    <button 
-                        onClick={(e) => handleDelete(e, item.id)}
-                        className="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-sm opacity-100 hover:bg-red-700 z-10"
-                    >
-                        <Trash2 size={16} />
-                    </button>
+                  <button
+                    onClick={(e) => handleDelete(e, item.id)}
+                    className="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-sm opacity-100 hover:bg-red-700 z-10"
+                  >
+                    <Trash2 size={16} />
+                  </button>
                 )}
               </div>
               <p className="text-xs font-bold mt-2 text-center truncate px-1 bg-white inline-block w-full border border-gray-200">{item.title}</p>
             </div>
           ))}
-          
+
           {isAdmin && (
             <div onClick={() => setShowUploadModal(true)} className="aspect-square bg-[#F0F0F0] border-2 border-black border-dashed flex flex-col items-center justify-center cursor-pointer hover:bg-white transition-colors group">
-                <div className="bg-[#FF00FF] text-white p-2 rounded-full mb-2 group-hover:scale-110 transition-transform"><Plus size={24} /></div>
-                <span className="text-xs font-bold text-gray-500">추억 추가하기</span>
+              <div className="bg-[#FF00FF] text-white p-2 rounded-full mb-2 group-hover:scale-110 transition-transform"><Plus size={24} /></div>
+              <span className="text-xs font-bold text-gray-500">추억 추가하기</span>
             </div>
           )}
         </div>
-        
+
         {!isAdmin && progress === currentTab && (
-            <div className="mt-8">
-              <RetroButton onClick={handleNextStage} variant="secondary">{currentTab < phaseData.phases.length - 2 ? '다음 시기로 이동하기 👉' : '지옥의 30대 완료! 영상 보기 🎬'}</RetroButton>
-            </div>
+          <div className="mt-8">
+            <RetroButton onClick={handleNextStage} variant="secondary">{currentTab < phaseData.phases.length - 2 ? '다음 시기로 이동하기 👉' : '지옥의 30대 완료! 영상 보기 🎬'}</RetroButton>
+          </div>
         )}
       </div>
     );
@@ -606,36 +606,36 @@ export default function TimeCapsuleApp() {
       <style>{`@keyframes fade-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } } .animate-fade-in { animation: fade-in 0.3s ease-out forwards; } .font-handwriting { font-family: 'Courier New', Courier, monospace; } .scrollbar-hide::-webkit-scrollbar { display: none; }`}</style>
       <header className="bg-white border-b-2 border-black p-3 flex justify-between items-center sticky top-0 z-50">
         <div className="flex items-center gap-2">
-            <PixelAvatar size={28} color="#FF00FF" />
-            <h1 className="font-black text-lg tracking-tighter text-[#FF00FF] drop-shadow-[1px_1px_0px_#000]">MISO WORLD</h1>
-            {isAdmin && <span className="bg-red-500 text-white text-[10px] px-1 font-bold border border-black animate-pulse">ADMIN</span>}
+          <PixelAvatar size={28} color="#FF00FF" />
+          <h1 className="font-black text-lg tracking-tighter text-[#FF00FF] drop-shadow-[1px_1px_0px_#000]">MISO WORLD</h1>
+          {isAdmin && <span className="bg-red-500 text-white text-[10px] px-1 font-bold border border-black animate-pulse">ADMIN</span>}
         </div>
         <div className="flex items-center gap-3">
-            <div className="hidden sm:flex items-center space-x-2 text-xs font-bold bg-black text-white px-2 py-1 rounded-none border border-black shadow-[2px_2px_0px_0px_rgba(200,200,200,1)]"><Music size={12} className="animate-spin-slow" /><span>Now Playing: 프리스타일 - Y</span></div>
-            <button onClick={handleLogout} className="bg-white border-2 border-black p-1 hover:bg-red-100 transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none" title="로그아웃">
-                <LogOut size={16} className="text-red-500"/>
-            </button>
+          <div className="hidden sm:flex items-center space-x-2 text-xs font-bold bg-black text-white px-2 py-1 rounded-none border border-black shadow-[2px_2px_0px_0px_rgba(200,200,200,1)]"><Music size={12} className="animate-spin-slow" /><span>Now Playing: 프리스타일 - Y</span></div>
+          <button onClick={handleLogout} className="bg-white border-2 border-black p-1 hover:bg-red-100 transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none" title="로그아웃">
+            <LogOut size={16} className="text-red-500" />
+          </button>
         </div>
       </header>
       {renderTimelineNav()}
       <main className="max-w-md mx-auto pt-6 animate-fade-in min-h-[calc(100vh-140px)]">{renderContent()}</main>
-      
-      <DetailModal 
-        item={selectedItem} 
+
+      <DetailModal
+        item={selectedItem}
         items={displayItems}
-        onClose={() => setSelectedItem(null)} 
+        onClose={() => setSelectedItem(null)}
         onChange={(newItem) => setSelectedItem(newItem)}
       />
-      
+
       <UploadModal isOpen={showUploadModal} onClose={() => setShowUploadModal(false)} onUpload={handleUpload} isUploading={isUploading} />
       {editingPhase && (
-         <PhaseEditModal 
-            isOpen={!!editingPhase} 
-            phaseKey={editingPhase} 
-            initialData={phaseData[editingPhase]}
-            onClose={() => setEditingPhase(null)}
-            onSave={handlePhaseUpdate}
-         />
+        <PhaseEditModal
+          isOpen={!!editingPhase}
+          phaseKey={editingPhase}
+          initialData={phaseData[editingPhase]}
+          onClose={() => setEditingPhase(null)}
+          onSave={handlePhaseUpdate}
+        />
       )}
     </div>
   );
